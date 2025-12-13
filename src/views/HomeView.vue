@@ -1,31 +1,5 @@
 <template>
   <div class="home">
-    <!-- 顶部导航栏 -->
-    <header class="nav">
-      <div class="nav-left"></div>
-      <nav class="nav-center">
-        <a>· 协作空间</a>
-        <a>发现</a>
-        <a>个人中心</a>
-        <a>新手指导</a>
-        <a
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg
-        ></a>
-      </nav>
-    </header>
-
     <!-- 中央文案 -->
     <section class="hero">
       <div class="hero-text">
