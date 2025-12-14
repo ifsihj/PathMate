@@ -69,8 +69,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import DiscoveryCard from '@/components/DiscoveryCard.vue';
+
+const router = useRouter();
 
 const showUploadModal = ref(false);
 const uploadForm = ref({
@@ -79,7 +82,100 @@ const uploadForm = ref({
   coverFileList: [],
 });
 
-const articleItems = ref([]);
+const articleItems = ref([
+  {
+    id: 1,
+    title: 'Vue3 项目开发经验分享',
+    author: '小明',
+    authorAvatar: '/src/assets/images/avatar1.webp',
+    coverImage: '/src/assets/images/HomePage.png',
+    content: `在开发PathMate项目的过程中，我积累了一些Vue3开发的经验，想和大家分享一下。
+
+首先，关于组件设计。我发现使用Composition API可以让代码更加清晰和可维护。特别是对于复杂的业务逻辑，使用setup语法糖可以让代码结构更加直观。
+
+其次，关于状态管理。对于简单的状态，使用ref和reactive就足够了。但是对于跨组件的状态共享，建议使用Pinia或者Vuex。
+
+最后，关于性能优化。使用v-memo和v-once可以有效地减少不必要的渲染。同时，合理使用computed和watch可以避免不必要的计算。
+
+希望这些经验对大家有帮助！`,
+    createdAt: Date.now() - 86400000 * 2, // 2天前
+    likeCount: 15,
+    isLiked: false,
+    comments: [
+      {
+        id: 1,
+        user: '小红',
+        content: '非常实用的经验分享，学到了很多！',
+        createdAt: Date.now() - 3600000, // 1小时前
+      },
+      {
+        id: 2,
+        user: '小李',
+        content: '关于性能优化的部分特别有用，感谢分享！',
+        createdAt: Date.now() - 7200000, // 2小时前
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: '前端路由设计最佳实践',
+    author: '小张',
+    authorAvatar: '/src/assets/images/avatar2.webp',
+    coverImage: '/src/assets/images/BackGround.webp',
+    content: `在PathMate项目中，我负责了路由系统的设计。这里分享一些最佳实践。
+
+1. 路由懒加载
+使用动态import可以实现路由的懒加载，这样可以减少初始加载时间。
+
+2. 路由守卫
+合理使用beforeEach、beforeResolve等路由守卫可以实现权限控制和数据预加载。
+
+3. 嵌套路由
+对于复杂的页面结构，使用嵌套路由可以让代码组织更加清晰。
+
+4. 路由元信息
+使用meta字段可以存储路由相关的元信息，比如页面标题、权限要求等。
+
+这些实践在我们的项目中都得到了很好的应用。`,
+    createdAt: Date.now() - 86400000 * 5, // 5天前
+    likeCount: 23,
+    isLiked: false,
+    comments: [
+      {
+        id: 1,
+        user: '小王',
+        content: '路由守卫的使用确实很重要，学到了！',
+        createdAt: Date.now() - 1800000, // 30分钟前
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: '团队协作开发经验',
+    author: '小刘',
+    authorAvatar: '/src/assets/images/avatar3.jpg',
+    coverImage: '/src/assets/images/help.jpg',
+    content: `在PathMate团队中，我们采用了一些协作开发的最佳实践，效果很好。
+
+1. Git工作流
+我们使用Git Flow工作流，每个功能都在独立的分支上开发，通过Pull Request进行代码审查。
+
+2. 代码规范
+使用ESLint和Prettier统一代码风格，确保代码质量。
+
+3. 组件文档
+为每个组件编写文档，包括使用示例和API说明。
+
+4. 定期沟通
+每周举行站会，及时同步进度和问题。
+
+这些实践让我们的团队协作更加高效。`,
+    createdAt: Date.now() - 86400000 * 7, // 7天前
+    likeCount: 8,
+    isLiked: false,
+    comments: [],
+  },
+]);
 
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith('image/');
@@ -130,7 +226,8 @@ const resetForm = () => {
 };
 
 const handleCardClick = (item) => {
-  console.log('点击了卡片:', item);
+  // 跳转到文章详情页
+  router.push(`/discovery/articles/${item.id}`);
 };
 
 const saveData = () => {
@@ -142,11 +239,16 @@ onMounted(() => {
   if (saved) {
     try {
       const data = JSON.parse(saved);
-      articleItems.value = data;
+      // 合并示例数据和保存的数据，避免重复
+      const existingIds = new Set(data.map(item => item.id));
+      const newItems = articleItems.value.filter(item => !existingIds.has(item.id));
+      articleItems.value = [...newItems, ...data];
     } catch (e) {
       console.error('Failed to load article items:', e);
     }
   }
+  // 保存初始数据
+  saveData();
 });
 </script>
 

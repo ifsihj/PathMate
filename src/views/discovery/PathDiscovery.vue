@@ -17,7 +17,10 @@
         v-for="item in pathItems"
         :key="item.id"
         :item="item"
+        :show-actions="true"
+        :action-buttons="{ chat: true, apply: true }"
         @click="handleCardClick"
+        @action="handleAction"
       />
     </div>
 
@@ -90,7 +93,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 import DiscoveryCard from '@/components/DiscoveryCard.vue';
 
 const showUploadModal = ref(false);
@@ -203,6 +206,27 @@ const resetForm = () => {
 const handleCardClick = (item) => {
   console.log('点击了卡片:', item);
   // TODO: 跳转到详情页
+};
+
+const handleAction = (action, item) => {
+  if (action === 'chat') {
+    Modal.info({
+      title: '开始聊天',
+      content: `您想要与 "${item.author}" 关于 "${item.title}" 进行聊天。\n\n（聊天功能开发中...）`,
+      okText: '确定',
+    });
+  } else if (action === 'apply') {
+    Modal.confirm({
+      title: '申请加入 Path',
+      content: `您确定要申请加入 "${item.title}" 吗？`,
+      okText: '确定申请',
+      cancelText: '取消',
+      onOk() {
+        message.success('申请已提交，等待审核中...');
+        // TODO: 实现申请逻辑
+      },
+    });
+  }
 };
 
 const saveData = () => {

@@ -66,6 +66,11 @@ const router = createRouter({
           name: "discovery-articles",
           component: () => import("../views/discovery/ArticleDiscovery.vue"),
         },
+        {
+          path: "articles/:id",
+          name: "article-detail",
+          component: () => import("../views/discovery/ArticleDetailView.vue"),
+        },
       ],
     },
   ],

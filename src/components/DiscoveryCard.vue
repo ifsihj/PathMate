@@ -35,18 +35,47 @@
         </button>
       </div>
       
-      <!-- 底部用户信息 -->
-      <div class="card-author">
-        <img 
-          v-if="item.authorAvatar" 
-          :src="item.authorAvatar" 
-          :alt="item.author"
-          class="author-avatar"
-        />
-        <div v-else class="author-avatar-placeholder">
-          {{ item.author?.charAt(0) || 'U' }}
+      <!-- 底部用户信息和操作按钮 -->
+      <div class="card-footer">
+        <div class="card-author">
+          <img 
+            v-if="item.authorAvatar" 
+            :src="item.authorAvatar" 
+            :alt="item.author"
+            class="author-avatar"
+          />
+          <div v-else class="author-avatar-placeholder">
+            {{ item.author?.charAt(0) || 'U' }}
+          </div>
+          <span class="author-name">{{ item.author }}</span>
         </div>
-        <span class="author-name">{{ item.author }}</span>
+        <div v-if="showActions" class="card-actions" @click.stop>
+          <slot name="actions">
+            <button 
+              v-if="actionButtons?.chat"
+              class="action-btn chat-btn"
+              @click="handleAction('chat')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              聊天
+            </button>
+            <button 
+              v-if="actionButtons?.apply"
+              class="action-btn apply-btn"
+              @click="handleAction('apply')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+              申请加入
+            </button>
+          </slot>
+        </div>
       </div>
     </div>
   </div>
@@ -59,10 +88,18 @@ const props = defineProps({
   item: {
     type: Object,
     required: true
+  },
+  showActions: {
+    type: Boolean,
+    default: false
+  },
+  actionButtons: {
+    type: Object,
+    default: () => ({})
   }
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'action']);
 
 const expanded = ref(false);
 const previewLength = 300;
@@ -83,6 +120,10 @@ const toggleExpand = () => {
 
 const handleCardClick = () => {
   emit('click', props.item);
+};
+
+const handleAction = (action) => {
+  emit('action', action, props.item);
 };
 </script>
 
@@ -226,14 +267,72 @@ const handleCardClick = () => {
   min-height: 300px;
 }
 
-.card-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.card-footer {
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.chat-btn {
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.chat-btn:hover {
+  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+}
+
+.apply-btn {
+  background: white;
+  color: #4A90E2;
+  border: 2px solid #4A90E2;
+}
+
+.apply-btn:hover {
+  background: #4A90E2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .author-avatar {
@@ -320,6 +419,22 @@ const handleCardClick = () => {
 
   .card-content {
     min-height: auto;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .action-btn {
+    flex: 1;
+    justify-content: center;
   }
 }
 </style>
