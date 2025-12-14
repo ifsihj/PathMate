@@ -123,7 +123,7 @@
   padding: 40px;
   border-radius: 24px;
   box-shadow: 
-    0 20px 60px rgba(102, 126, 234, 0.15),
+    0 20px 60px rgba(74, 144, 226, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   max-width: 1100px;
@@ -142,7 +142,7 @@
   width: 200%;
   height: 200%;
   background: radial-gradient(circle, 
-    rgba(102, 126, 234, 0.1) 0%, 
+    rgba(74, 144, 226, 0.1) 0%, 
     transparent 70%);
   pointer-events: none;
   animation: rotate 20s linear infinite;
@@ -200,7 +200,7 @@
 }
 
 .intro-text strong {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -224,7 +224,7 @@
   content: "✦";
   position: absolute;
   left: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4A90E2, #50C9C3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -256,7 +256,7 @@
 .section-title {
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -272,7 +272,7 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #4A90E2, #50C9C3);
   border-radius: 2px;
 }
 
@@ -311,7 +311,7 @@
   inset: -3px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  background: linear-gradient(135deg, #4A90E2, #50C9C3, #7BDFF2);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -325,7 +325,7 @@
 
 .member-avatar:hover {
   transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
 }
 
 .member-avatar.leader {
@@ -346,7 +346,7 @@
 .add-avatar:hover {
   background: linear-gradient(135deg, #d0d0d0, #c0c0c0);
   transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.3);
 }
 
 .member-label {
@@ -357,7 +357,7 @@
 }
 
 .member-item:hover .member-label {
-  color: #667eea;
+  color: #4A90E2;
 }
 
 .add-member .member-label {

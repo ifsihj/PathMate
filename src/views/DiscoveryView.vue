@@ -1,15 +1,14 @@
 <template>
-  <div class="collaboration">
-
+  <div class="discovery">
     <!-- 左侧导航栏 -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2 class="sidebar-title">协作空间</h2>
+        <h2 class="sidebar-title">发现</h2>
       </div>
       <nav class="sidebar-nav">
         <ul>
           <li>
-            <router-link to="/collaboration/path-description" class="nav-item">
+            <router-link to="/discovery/path" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -17,12 +16,12 @@
                   <line x1="12" y1="22.08" x2="12" y2="12"></line>
                 </svg>
               </span>
-              <span class="nav-text">Path概况</span>
+              <span class="nav-text">Path</span>
               <span class="nav-indicator"></span>
             </router-link>
           </li>
           <li>
-            <router-link to="/collaboration/mate-management" class="nav-item">
+            <router-link to="/discovery/mate" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -31,31 +30,22 @@
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
               </span>
-              <span class="nav-text">Mate管理</span>
+              <span class="nav-text">Mate</span>
               <span class="nav-indicator"></span>
             </router-link>
           </li>
           <li>
-            <router-link to="/collaboration/task-system" class="nav-item">
+            <router-link to="/discovery/articles" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  <line x1="8" y1="7" x2="16" y2="7"></line>
+                  <line x1="8" y1="11" x2="16" y2="11"></line>
+                  <line x1="8" y1="15" x2="12" y2="15"></line>
                 </svg>
               </span>
-              <span class="nav-text">任务系统</span>
-              <span class="nav-indicator"></span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/collaboration/work-system" class="nav-item">
-              <span class="nav-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="9" y1="3" x2="9" y2="21"></line>
-                  <line x1="3" y1="9" x2="21" y2="9"></line>
-                </svg>
-              </span>
-              <span class="nav-text">工作系统</span>
+              <span class="nav-text">经验文章</span>
               <span class="nav-indicator"></span>
             </router-link>
           </li>
@@ -71,67 +61,17 @@
 </template>
 
 <script setup>
-// 协作空间主视图，包含顶部导航、侧边栏和子路由内容
+// 发现页面主视图
 </script>
 
 <style scoped>
-.collaboration {
+.discovery {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background: url("@/assets/images/BackGround.webp") center / cover no-repeat;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
-}
-
-/* 顶部导航栏样式 */
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px 40px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
-
-.nav-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-}
-
-.nav-center a {
-  color: #2c3e50;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  cursor: pointer;
-}
-
-.nav-center a:hover {
-  color: #3498db;
-}
-
-.nav-center a.router-link-active {
-  color: #3498db;
-  font-weight: 600;
-}
-
-.search-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
 }
 
 /* 左侧导航栏样式 */
@@ -167,8 +107,8 @@
   right: 0;
   height: 200px;
   background: linear-gradient(180deg, 
-    rgba(138, 43, 226, 0.15) 0%, 
-    rgba(30, 144, 255, 0.1) 50%,
+    rgba(74, 144, 226, 0.15) 0%, 
+    rgba(80, 201, 195, 0.1) 50%,
     transparent 100%);
   pointer-events: none;
   z-index: -1;
@@ -306,12 +246,11 @@
   opacity: 0;
 }
 
-/* 被点击/激活的样式：酷炫渐变背景 */
 .nav-item.router-link-active {
   background: linear-gradient(135deg, 
     rgba(74, 144, 226, 0.3) 0%, 
-    rgba(118, 75, 162, 0.3) 50%,
-    rgba(240, 147, 251, 0.3) 100%);
+    rgba(80, 201, 195, 0.3) 50%,
+    rgba(123, 223, 242, 0.3) 100%);
   border-left-color: #4A90E2;
   color: #ffffff;
   transform: translateX(8px);
@@ -362,7 +301,6 @@
   border-radius: 12px;
 }
 
-/* 主内容区样式 */
 .main-content {
   flex: 1;
   margin-left: 280px;
@@ -374,7 +312,6 @@
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 滚动条美化 */
 .sidebar::-webkit-scrollbar {
   width: 6px;
 }
@@ -394,21 +331,7 @@
   background: linear-gradient(180deg, #50C9C3, #7BDFF2);
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
-  .top-nav {
-    padding: 10px 20px;
-  }
-
-  .nav-center {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-
-  .nav-center a {
-    font-size: 14px;
-  }
-
   .sidebar {
     width: 100%;
     height: auto;

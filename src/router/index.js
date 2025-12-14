@@ -45,6 +45,29 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/discovery",
+      name: "discovery",
+      component: () => import("../views/DiscoveryView.vue"),
+      redirect: "/discovery/path",
+      children: [
+        {
+          path: "path",
+          name: "discovery-path",
+          component: () => import("../views/discovery/PathDiscovery.vue"),
+        },
+        {
+          path: "mate",
+          name: "discovery-mate",
+          component: () => import("../views/discovery/MateDiscovery.vue"),
+        },
+        {
+          path: "articles",
+          name: "discovery-articles",
+          component: () => import("../views/discovery/ArticleDiscovery.vue"),
+        },
+      ],
+    },
   ],
 });
 

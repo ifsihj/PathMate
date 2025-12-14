@@ -103,12 +103,12 @@ const deleteMember = (member) => {
 .page-title {
   font-size: 48px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 2px;
-  text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  text-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
   animation: fadeInDown 0.6s ease-out;
 }
 
@@ -132,7 +132,7 @@ const deleteMember = (member) => {
   padding: 40px;
   border-radius: 24px;
   box-shadow: 
-    0 20px 60px rgba(102, 126, 234, 0.15),
+    0 20px 60px rgba(74, 144, 226, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   max-width: 1100px;
@@ -189,7 +189,7 @@ const deleteMember = (member) => {
   height: 100%;
   background: linear-gradient(90deg, 
     transparent, 
-    rgba(102, 126, 234, 0.1), 
+    rgba(74, 144, 226, 0.1), 
     transparent);
   transition: left 0.5s ease;
 }
@@ -200,10 +200,10 @@ const deleteMember = (member) => {
 
 .member-card:hover {
   box-shadow: 
-    0 12px 32px rgba(102, 126, 234, 0.2),
-    0 0 0 1px rgba(102, 126, 234, 0.1);
+    0 12px 32px rgba(74, 144, 226, 0.2),
+    0 0 0 1px rgba(74, 144, 226, 0.1);
   transform: translateY(-4px) scale(1.02);
-  border-color: rgba(102, 126, 234, 0.3);
+  border-color: rgba(74, 144, 226, 0.3);
 }
 
 .member-info {
@@ -232,7 +232,7 @@ const deleteMember = (member) => {
   inset: -3px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4A90E2, #50C9C3);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -246,7 +246,7 @@ const deleteMember = (member) => {
 
 .member-card:hover .member-avatar {
   transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
 }
 
 .member-avatar.leader {
@@ -303,15 +303,15 @@ const deleteMember = (member) => {
 }
 
 .view-profile {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
 
 .view-profile:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
 }
 
 .enter-chat {

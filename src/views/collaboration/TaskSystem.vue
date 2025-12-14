@@ -41,12 +41,12 @@ const tasks = ref([
 .page-title {
   font-size: 48px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 2px;
-  text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  text-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
   animation: fadeInDown 0.6s ease-out;
 }
 
@@ -70,7 +70,7 @@ const tasks = ref([
   padding: 40px;
   border-radius: 24px;
   box-shadow: 
-    0 20px 60px rgba(102, 126, 234, 0.15),
+    0 20px 60px rgba(74, 144, 226, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   max-width: 1100px;
