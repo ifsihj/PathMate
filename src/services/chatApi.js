@@ -148,3 +148,71 @@ export const deleteChat = async (chatId) => {
   localStorage.removeItem(`chat-messages-${chatId}`);
   return { success: true };
 };
+
+// 发送群聊消息
+export const sendGroupMessage = async (chatId, content) => {
+  // TODO: 替换为真实API调用
+  // return fetch(`${API_BASE_URL}/group/${chatId}/messages`, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ content })
+  // }).then(res => res.json());
+  
+  // 模拟API调用
+  await delay(300);
+  const newMessage = {
+    id: Date.now(),
+    chatId,
+    senderId: 'current-user',
+    senderName: '我',
+    senderAvatar: null,
+    content,
+    timestamp: Date.now(),
+    type: 'text'
+  };
+  
+  const messages = await getGroupMessages(chatId);
+  messages.push(newMessage);
+  localStorage.setItem(`group-messages-${chatId}`, JSON.stringify(messages));
+  
+  return newMessage;
+};
+
+// 获取群聊消息
+export const getGroupMessages = async (chatId) => {
+  // TODO: 替换为真实API调用
+  // return fetch(`${API_BASE_URL}/group/${chatId}/messages`).then(res => res.json());
+  
+  // 模拟API调用
+  await delay(200);
+  const saved = localStorage.getItem(`group-messages-${chatId}`);
+  if (saved) {
+    return JSON.parse(saved);
+  }
+  
+  // 初始化示例消息
+  const sampleMessages = [
+    {
+      id: Date.now() - 3600000,
+      chatId,
+      senderId: 'user-1',
+      senderName: '小明',
+      senderAvatar: '/src/assets/images/avatar1.webp',
+      content: '大家好！',
+      timestamp: Date.now() - 3600000,
+      type: 'text'
+    },
+    {
+      id: Date.now() - 1800000,
+      chatId,
+      senderId: 'user-2',
+      senderName: '小红',
+      senderAvatar: '/src/assets/images/avatar2.webp',
+      content: '欢迎加入！',
+      timestamp: Date.now() - 1800000,
+      type: 'text'
+    }
+  ];
+  localStorage.setItem(`group-messages-${chatId}`, JSON.stringify(sampleMessages));
+  return sampleMessages;
+};
