@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 // 成员数据
 const members = ref([
@@ -68,6 +69,8 @@ const members = ref([
   },
 ]);
 
+const router = useRouter();
+
 // 操作方法
 const viewProfile = (member) => {
   console.log("查看资料:", member);
@@ -75,8 +78,18 @@ const viewProfile = (member) => {
 };
 
 const enterChat = (member) => {
-  console.log("进入聊天:", member);
-  // TODO: 实现进入聊天功能
+  // 跳转到聊天页面
+  router.push({
+    path: '/chat',
+    query: {
+      userId: `user-${member.id}`,
+      userName: member.name,
+      avatar: member.avatar === 'LeaderAvatar' ? '/src/assets/images/avatar1.webp' 
+        : member.avatar === 'StarAvatar' ? '/src/assets/images/avatar2.webp'
+        : member.avatar === 'CatAvatar' ? '/src/assets/images/avatar3.jpg'
+        : null
+    }
+  });
 };
 
 const deleteMember = (member) => {

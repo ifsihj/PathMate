@@ -265,22 +265,23 @@ onMounted(() => {
 
 .upload-btn {
   width: 100%;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
+  padding: 14px 24px;
+  background: #4A90E2;
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.3);
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
   position: relative;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .upload-btn::before {
@@ -302,9 +303,9 @@ onMounted(() => {
 }
 
 .upload-btn:hover {
-  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(74, 144, 226, 0.4);
+  background: #3d7bc4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.3);
 }
 
 .content-feed {

@@ -73,6 +73,34 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/personal-center",
+      name: "personal-center",
+      component: () => import("../views/PersonalCenterView.vue"),
+      redirect: "/personal-center/resources",
+      children: [
+        {
+          path: "resources",
+          name: "personal-center-resources",
+          component: () => import("../views/personalcenter/ResourceSystem.vue"),
+        },
+        {
+          path: "notifications",
+          name: "personal-center-notifications",
+          component: () => import("../views/personalcenter/NotificationSystem.vue"),
+        },
+        {
+          path: "settings",
+          name: "personal-center-settings",
+          component: () => import("../views/personalcenter/Settings.vue"),
+        },
+      ],
+    },
+    {
+      path: "/chat",
+      name: "chat",
+      component: () => import("../views/ChatView.vue"),
+    },
   ],
 });
 

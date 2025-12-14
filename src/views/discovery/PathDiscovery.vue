@@ -93,9 +93,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { message, Modal } from 'ant-design-vue';
 import DiscoveryCard from '@/components/DiscoveryCard.vue';
 
+const router = useRouter();
 const showUploadModal = ref(false);
 const uploadForm = ref({
   title: '',
@@ -210,10 +212,14 @@ const handleCardClick = (item) => {
 
 const handleAction = (action, item) => {
   if (action === 'chat') {
-    Modal.info({
-      title: '开始聊天',
-      content: `您想要与 "${item.author}" 关于 "${item.title}" 进行聊天。\n\n（聊天功能开发中...）`,
-      okText: '确定',
+    // 跳转到聊天页面
+    router.push({
+      path: '/chat',
+      query: {
+        userId: `user-${item.author}`,
+        userName: item.author,
+        context: `关于 "${item.title}"`
+      }
     });
   } else if (action === 'apply') {
     Modal.confirm({
@@ -260,22 +266,23 @@ onMounted(() => {
 
 .upload-btn {
   width: 100%;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
+  padding: 14px 24px;
+  background: #4A90E2;
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.3);
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
   position: relative;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .upload-btn::before {
@@ -297,9 +304,9 @@ onMounted(() => {
 }
 
 .upload-btn:hover {
-  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(74, 144, 226, 0.4);
+  background: #3d7bc4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.3);
 }
 
 .content-feed {

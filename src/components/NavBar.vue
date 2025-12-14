@@ -3,9 +3,12 @@
     <!-- 顶部导航栏 -->
     <header class="nav" :class="{ 'nav-home': isHome }">
       <div class="nav-left">
-        <div class="logo">
-          <span class="logo-text">PathMate</span>
-        </div>
+        <router-link to="/" class="logo-link">
+          <div class="logo">
+            <img :src="logoUrl" alt="PathMate" class="logo-img" />
+            <span class="logo-text">PathMate</span>
+          </div>
+        </router-link>
       </div>
       <nav class="nav-center">        
         <router-link to="/collaboration" class="nav-link">
@@ -14,9 +17,9 @@
         <router-link to="/discovery" class="nav-link">
           <span class="nav-link-text">发现</span>
         </router-link>
-        <a class="nav-link">
+        <router-link to="/personal-center" class="nav-link">
           <span class="nav-link-text">个人中心</span>
-        </a>
+        </router-link>
         <a class="nav-link">
           <span class="nav-link-text">新手指导</span>
         </a>
@@ -46,12 +49,16 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import logoImage from "@/assets/images/logo.jpg";
 
 // 获取当前路由
 const route = useRoute();
 
 // 判断是否在首页
 const isHome = computed(() => route.path === "/");
+
+// Logo图片路径
+const logoUrl = logoImage;
 </script>
 
 <style scoped>
@@ -64,18 +71,16 @@ const isHome = computed(() => route.path === "/");
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  height: 70px;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.98) 0%, 
-    rgba(255, 255, 255, 0.95) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 0 48px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 8px 24px rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-home {
@@ -95,28 +100,59 @@ const isHome = computed(() => route.path === "/");
   align-items: center;
 }
 
+.logo-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.02);
+}
+
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.logo-link:hover .logo-img {
+  transform: rotate(-5deg) scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(74, 144, 226, 0.3));
+}
+
+.nav-home .logo-img {
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
 }
 
 .logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
+  font-size: 22px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #2c3e50 0%, #4A90E2 50%, #50C9C3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .nav-home .logo-text {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E8F4F8 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.9) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-center {
@@ -129,15 +165,16 @@ const isHome = computed(() => route.path === "/");
 
 .nav-link {
   position: relative;
-  padding: 10px 20px;
+  padding: 10px 18px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #2c3e50;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 10px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
   cursor: pointer;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .nav-home .nav-link {
@@ -151,12 +188,10 @@ const isHome = computed(() => route.path === "/");
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(74, 144, 226, 0.1) 0%, 
-    rgba(80, 201, 195, 0.1) 100%);
+  background: rgba(74, 144, 226, 0.06);
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .nav-link:hover::before {
@@ -175,9 +210,7 @@ const isHome = computed(() => route.path === "/");
 
 .nav-link.router-link-active {
   color: #4A90E2;
-  background: linear-gradient(135deg, 
-    rgba(74, 144, 226, 0.1) 0%, 
-    rgba(80, 201, 195, 0.1) 100%);
+  background: rgba(74, 144, 226, 0.08);
   font-weight: 600;
 }
 
@@ -189,13 +222,14 @@ const isHome = computed(() => route.path === "/");
 .nav-link.router-link-active::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60%;
-  height: 3px;
+  width: 24px;
+  height: 2px;
   background: linear-gradient(90deg, #4A90E2, #50C9C3);
   border-radius: 2px;
+  opacity: 0.8;
 }
 
 .nav-home .nav-link.router-link-active::after {
@@ -214,19 +248,17 @@ const isHome = computed(() => route.path === "/");
 }
 
 .search-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, 
-    rgba(74, 144, 226, 0.1) 0%, 
-    rgba(80, 201, 195, 0.1) 100%);
+  background: rgba(74, 144, 226, 0.06);
   color: #4A90E2;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }

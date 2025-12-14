@@ -129,25 +129,22 @@ const handleAction = (action) => {
 
 <style scoped>
 .discovery-card {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(255, 255, 255, 0.9) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 
-    0 8px 32px rgba(74, 144, 226, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
-  margin-bottom: 24px;
-  animation: fadeInUp 0.5s ease-out;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease-out;
   display: flex;
-  min-height: 300px;
+  min-height: 280px;
 }
 
 @keyframes fadeInUp {
@@ -181,12 +178,11 @@ const handleAction = (action) => {
 }
 
 .discovery-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-4px);
   box-shadow: 
-    0 16px 48px rgba(74, 144, 226, 0.2),
-    0 0 0 1px rgba(74, 144, 226, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  border-color: rgba(74, 144, 226, 0.3);
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 12px 32px rgba(74, 144, 226, 0.12);
+  border-color: rgba(74, 144, 226, 0.2);
 }
 
 .card-cover {
@@ -194,7 +190,7 @@ const handleAction = (action) => {
   min-width: 280px;
   max-width: 400px;
   overflow: hidden;
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 50%, #7BDFF2 100%);
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.08) 0%, rgba(80, 201, 195, 0.06) 100%);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -306,28 +302,28 @@ const handleAction = (action) => {
 }
 
 .chat-btn {
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
+  background: #4A90E2;
   color: white;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 2px 6px rgba(74, 144, 226, 0.2);
 }
 
 .chat-btn:hover {
-  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+  background: #3d7bc4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
 .apply-btn {
   background: white;
   color: #4A90E2;
-  border: 2px solid #4A90E2;
+  border: 1.5px solid #4A90E2;
 }
 
 .apply-btn:hover {
-  background: #4A90E2;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  background: rgba(74, 144, 226, 0.05);
+  border-color: #3d7bc4;
+  color: #3d7bc4;
+  transform: translateY(-1px);
 }
 
 .action-btn svg {
@@ -384,22 +380,21 @@ const handleAction = (action) => {
 
 .view-more-btn {
   margin-top: 12px;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #4A90E2 0%, #50C9C3 100%);
-  color: white;
-  border: none;
+  padding: 6px 14px;
+  background: rgba(74, 144, 226, 0.1);
+  color: #4A90E2;
+  border: 1px solid rgba(74, 144, 226, 0.2);
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
 .view-more-btn:hover {
-  background: linear-gradient(135deg, #50C9C3 0%, #7BDFF2 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  background: rgba(74, 144, 226, 0.15);
+  border-color: rgba(74, 144, 226, 0.3);
+  transform: translateY(-1px);
 }
 
 /* 响应式设计 */
