@@ -1,11 +1,8 @@
 <template>
   <div class="collaboration">
+
     <!-- 左侧导航栏 -->
-    <aside
-      class="sidebar"
-      :class="{ 'sidebar-expanded': isExpanded }"
-      @click="toggleSidebar"
-    >
+    <aside class="sidebar">
       <div class="sidebar-header">
         <h2 class="sidebar-title">协作空间</h2>
       </div>
@@ -37,101 +34,96 @@
 
     <!-- 右侧主内容区 -->
     <main class="main-content">
-      <!-- 页面标题 -->
-      <div class="page-header">
-        <h1 class="page-title">PATH MATE</h1>
-      </div>
-
-      <!-- 主要内容（支持 Markdown） -->
-      <div class="white-wrapper">
-        <div class="content-wrapper">
-          <div class="markdown-content" v-html="compiledMarkdown"></div>
-        </div>
-      </div>
+      <router-view />
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { marked } from "marked";
-
-// 控制侧边栏点击展开/收起
-const isExpanded = ref(false);
-
-const toggleSidebar = () => {
-  isExpanded.value = !isExpanded.value;
-};
-
-// 假设这是从后端或用户输入获取的 Markdown 内容
-const rawMarkdown = ref(`
-## 信息架构小组招募
-
-![帮助图标](https://media.canva.cn/v2/image-resize/format:JPG/height:800/quality:92/uri:ifs%3A%2F%2FM%2F79aba401-82d7-4b1c-8cb0-0087bde3ea5c/watermark:F/width:562?csig=AAAAAAAAAAAAAAAAAAAAAC7ynQkmXnhb-ZzS4AlnwWbmK8OLNbgmfcNQn-0QUdfZ&exp=1765644225&osig=AAAAAAAAAAAAAAAAAAAAAHhHCk66LP0OmSbWAGIWQdB1j-M5FS5i4z7h16jYYExx&signer=media-rpc&x-canva-quality=screen)
-
-**“同行者”** 是一个面向高校学生的成长协作与经验连接平台，旨在解决：
-- 找不到合适的人
-- 连接无法持续
-- 经验无法沉淀
-
-平台围绕真实的成长路径，将正在经历相似阶段的学生（同行者）与已经走过相关路径的学长学姐或前辈（过来人）进行结构化连接。
-
-### 团队成员
-
-| 角色 | 姓名 |
-|------|------|
-| 组长 | xxx |
-| 组员 | yy, z |
-
-> 欢迎加入我们！
-`);
-
-// 渲染 Markdown
-const compiledMarkdown = computed(() => {
-  return marked.parse(rawMarkdown.value, {
-    sanitize: true, // 防 XSS（会过滤 HTML 标签）
-    breaks: true,
-    gfm: true,
-  });
-});
+// 协作空间主视图，包含顶部导航、侧边栏和子路由内容
 </script>
 
 <style scoped>
 .collaboration {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   background: url("@/assets/images/BackGround.webp") center / cover no-repeat;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+/* 顶部导航栏样式 */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px 40px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.nav-center a {
+  color: #2c3e50;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-center a:hover {
+  color: #3498db;
+}
+
+.nav-center a.router-link-active {
+  color: #3498db;
+  font-weight: 600;
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
 }
 
 /* 左侧导航栏样式 */
 .sidebar {
-  width: 60px;
-  background-color: rgba(255, 255, 255, 0.95);
+  position: fixed;
+  left: 0;
+  top: 60px;
+  bottom: 0;
+  width: 260px;
+  background-color: transparent;
+  backdrop-filter: blur(10px);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   padding: 20px 0;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  cursor: pointer;
+  overflow-y: auto;
+  z-index: 999;
 }
 
-.sidebar-expanded {
-  width: 260px;
-}
-
-.sidebar-header,
-.sidebar-nav {
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.sidebar-expanded .sidebar-header,
-.sidebar-expanded .sidebar-nav {
-  opacity: 1;
-  transform: translateX(0);
+.sidebar-header {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .sidebar-title {
@@ -152,7 +144,7 @@ const compiledMarkdown = computed(() => {
 }
 
 .sidebar-nav li {
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
 .nav-item {
@@ -165,10 +157,11 @@ const compiledMarkdown = computed(() => {
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
   white-space: nowrap;
+  margin: 0 10px;
+  border-radius: 8px;
 }
 
-.nav-item:hover,
-.nav-item.router-link-active {
+.nav-item:hover {
   background-color: #e3f2fd;
   border-left-color: #3498db;
   color: #2c3e50;
@@ -180,151 +173,46 @@ const compiledMarkdown = computed(() => {
   transform: scale(1.05);
   box-shadow: 0 6px 18px rgba(255, 118, 165, 0.12);
   color: #7a0030;
+  border-left-color: #ff76a5;
 }
 
 /* 主内容区样式 */
 .main-content {
   flex: 1;
+  margin-left: 260px;
+  margin-top: 60px;
   overflow-y: auto;
   padding: 30px;
   display: flex;
   flex-direction: column;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.page-title {
-  font-size: 42px;
-  font-weight: bold;
-  color: #2c3e50;
-  letter-spacing: 1.5px;
-}
-
-/* 白色外层 wrapper，让页面视觉更干净 */
-.white-wrapper {
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
-  max-width: 1100px;
-  margin: 0 auto;
-  width: calc(100% - 80px);
-}
-
-.content-wrapper {
-  background-color: rgba(255, 255, 255, 0.98);
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
-  /* 限制卡片高度并允许内部滚动 */
-  max-height: calc(100vh - 260px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.markdown-content {
-  line-height: 1.8;
-  color: #333;
-}
-
-.markdown-content h1,
-.markdown-content h2,
-.markdown-content h3 {
-  margin-top: 1.2em;
-  margin-bottom: 0.6em;
-  color: #2c3e50;
-}
-
-.markdown-content p,
-.markdown-content ul,
-.markdown-content ol {
-  margin-bottom: 1em;
-}
-
-.markdown-content img {
-  max-width: 10%;
-  height: auto;
-  border-radius: 8px;
-  margin: 12px 0;
-  display: block;
-}
-
-/* 美化内部滚动条（WebKit 浏览器） */
-.content-wrapper::-webkit-scrollbar {
-  width: 10px;
-}
-.content-wrapper::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.04);
-  border-radius: 10px;
-}
-.content-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 10px;
-}
-.content-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.18);
-}
-
-/* Firefox */
-.content-wrapper {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.04);
-}
-
-.markdown-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1em 0;
-}
-
-.markdown-content th,
-.markdown-content td {
-  border: 1px solid #eee;
-  padding: 8px 12px;
-  text-align: left;
-}
-
-.markdown-content blockquote {
-  border-left: 4px solid #3498db;
-  padding-left: 16px;
-  margin: 1em 0;
-  color: #555;
-  font-style: italic;
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .collaboration {
-    flex-direction: column;
+  .top-nav {
+    padding: 10px 20px;
+  }
+
+  .nav-center {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .nav-center a {
+    font-size: 14px;
   }
 
   .sidebar {
-    width: 100% !important;
+    width: 100%;
     height: auto;
-    cursor: default;
-  }
-
-  .sidebar-header,
-  .sidebar-nav {
-    opacity: 1 !important;
-    transform: none !important;
+    position: relative;
+    top: 0;
   }
 
   .main-content {
+    margin-left: 0;
+    margin-top: 0;
     padding: 15px;
-  }
-
-  .white-wrapper {
-    width: calc(100% - 30px);
-    margin: 12px auto;
-    padding: 16px;
-  }
-
-  .content-wrapper {
-    max-height: none; /* 移动端不限制高度 */
   }
 }
 </style>

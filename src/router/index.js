@@ -21,6 +21,29 @@ const router = createRouter({
       path: "/collaboration",
       name: "collaboration",
       component: () => import("../views/CollaborationView.vue"),
+      redirect: "/collaboration/path-description",
+      children: [
+        {
+          path: "path-description",
+          name: "path-description",
+          component: () => import("../views/collaboration/PathDescription.vue"),
+        },
+        {
+          path: "mate-management",
+          name: "mate-management",
+          component: () => import("../views/collaboration/MateManagement.vue"),
+        },
+        {
+          path: "task-system",
+          name: "task-system",
+          component: () => import("../views/collaboration/TaskSystem.vue"),
+        },
+        {
+          path: "work-system",
+          name: "work-system",
+          component: () => import("../views/collaboration/WorkSystem.vue"),
+        },
+      ],
     },
   ],
 });

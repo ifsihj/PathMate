@@ -3,8 +3,8 @@
     <!-- 顶部导航栏 -->
     <header class="nav" :class="{ 'nav-home': isHome }">
       <div class="nav-left"></div>
-      <nav class="nav-center">
-        <a>协作空间</a>
+      <nav class="nav-center">        
+        <a href="/collaboration">协作空间</a>
         <a>发现</a>
         <a>个人中心</a>
         <a>新手指导</a>
