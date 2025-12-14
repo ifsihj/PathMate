@@ -101,19 +101,55 @@ const deleteMember = (member) => {
 }
 
 .page-title {
-  font-size: 42px;
-  font-weight: bold;
-  color: #2c3e50;
-  letter-spacing: 1.5px;
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .white-wrapper {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 60px rgba(102, 126, 234, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   max-width: 1100px;
   margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .content-wrapper {
@@ -132,16 +168,42 @@ const deleteMember = (member) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  transition: all 0.3s ease;
+  padding: 24px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(248, 249, 250, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(102, 126, 234, 0.1), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.member-card:hover::before {
+  left: 100%;
 }
 
 .member-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 32px rgba(102, 126, 234, 0.2),
+    0 0 0 1px rgba(102, 126, 234, 0.1);
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .member-info {
@@ -151,19 +213,49 @@ const deleteMember = (member) => {
 }
 
 .member-avatar {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f0f0;
-  border: 3px solid #ddd;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+  border: 3px solid transparent;
   overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.member-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.member-card:hover .member-avatar::before {
+  opacity: 1;
+}
+
+.member-card:hover .member-avatar {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 .member-avatar.leader {
   border-color: #f39c12;
+  box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
+}
+
+.member-avatar.leader::before {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
 }
 
 .member-label {
@@ -179,46 +271,71 @@ const deleteMember = (member) => {
 }
 
 .action-btn {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.action-btn:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .view-profile {
-  background: #3498db;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .view-profile:hover {
-  background: #2980b9;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 .enter-chat {
-  background: #2ecc71;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
 }
 
 .enter-chat:hover {
-  background: #27ae60;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(46, 204, 113, 0.4);
 }
 
 .delete {
-  background: #e74c3c;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
 }
 
 .delete:hover {
-  background: #c0392b;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.4);
 }
 
 @media (max-width: 768px) {

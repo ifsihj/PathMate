@@ -115,12 +115,57 @@
 }
 
 .white-wrapper {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 60px rgba(102, 126, 234, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   max-width: 1100px;
   margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.white-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, 
+    rgba(102, 126, 234, 0.1) 0%, 
+    transparent 70%);
+  pointer-events: none;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .content-wrapper {
@@ -155,8 +200,12 @@
 }
 
 .intro-text strong {
-  color: #2c3e50;
-  font-size: 18px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .problem-list {
@@ -172,12 +221,27 @@
 }
 
 .problem-list li::before {
-  content: "•";
+  content: "✦";
   position: absolute;
   left: 0;
-  color: #3498db;
-  font-size: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 18px;
   font-weight: bold;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
 }
 
 .solution-text {
@@ -190,10 +254,26 @@
 }
 
 .section-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
 }
 
 .members-list {
@@ -217,33 +297,67 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f0f0;
-  border: 3px solid #ddd;
-  transition: transform 0.3s ease;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.member-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.member-avatar:hover::before {
+  opacity: 1;
 }
 
 .member-avatar:hover {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 .member-avatar.leader {
   border-color: #f39c12;
+  box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
+}
+
+.member-avatar.leader::before {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
 }
 
 .add-avatar {
-  background: #E0E0E0;
+  background: linear-gradient(135deg, #E0E0E0, #d0d0d0);
   border-color: #ccc;
   cursor: pointer;
 }
 
 .add-avatar:hover {
-  background: #d0d0d0;
+  background: linear-gradient(135deg, #d0d0d0, #c0c0c0);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
 .member-label {
   font-size: 14px;
   color: #555;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.member-item:hover .member-label {
+  color: #667eea;
 }
 
 .add-member .member-label {
