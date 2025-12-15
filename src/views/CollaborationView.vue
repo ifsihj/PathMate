@@ -5,10 +5,11 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <h2 class="sidebar-title">协作空间</h2>
-        <div v-if="currentPath" class="path-info">
+        <div v-if="currentPath" class="path-info clickable" @click="showPathListModal = true">
           <p class="path-name-small">{{ currentPath.name }}</p>
           <p class="path-title-small">{{ currentPath.title }}</p>
         </div>
+        <PathListModal v-if="showPathListModal" v-model:open="showPathListModal" />
       </div>
       <nav class="sidebar-nav">
         <ul>
@@ -74,10 +75,12 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getPathById } from '@/services/pathApi';
+import PathListModal from '@/components/PathListModal.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -85,6 +88,7 @@ const router = useRouter();
 // 从路由参数获取 pathId
 const pathId = computed(() => route.params.pathId);
 const currentPath = ref(null);
+const showPathListModal = ref(false);
 
 // 加载当前 Path 信息
 onMounted(async () => {
@@ -478,5 +482,16 @@ onMounted(async () => {
     margin-top: 0;
     padding: 15px;
   }
+}
+</style>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.clickable:hover {
+  box-shadow: 0 0 0 2px #4A90E2, 0 2px 8px rgba(74,144,226,0.15);
+  background: rgba(74,144,226,0.08);
 }
 </style>
