@@ -5,11 +5,15 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <h2 class="sidebar-title">协作空间</h2>
+        <div v-if="currentPath" class="path-info">
+          <p class="path-name-small">{{ currentPath.name }}</p>
+          <p class="path-title-small">{{ currentPath.title }}</p>
+        </div>
       </div>
       <nav class="sidebar-nav">
         <ul>
           <li>
-            <router-link to="/collaboration/path-description" class="nav-item">
+            <router-link :to="`/collaboration/${pathId}/path-description`" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -22,7 +26,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/collaboration/mate-management" class="nav-item">
+            <router-link :to="`/collaboration/${pathId}/mate-management`" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -36,7 +40,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/collaboration/task-system" class="nav-item">
+            <router-link :to="`/collaboration/${pathId}/task-system`" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
@@ -47,7 +51,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/collaboration/work-system" class="nav-item">
+            <router-link :to="`/collaboration/${pathId}/work-system`" class="nav-item">
               <span class="nav-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -71,7 +75,33 @@
 </template>
 
 <script setup>
-// 协作空间主视图，包含顶部导航、侧边栏和子路由内容
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { getPathById } from '@/services/pathApi';
+
+const route = useRoute();
+const router = useRouter();
+
+// 从路由参数获取 pathId
+const pathId = computed(() => route.params.pathId);
+const currentPath = ref(null);
+
+// 加载当前 Path 信息
+onMounted(async () => {
+  if (pathId.value) {
+    try {
+      const path = await getPathById(Number(pathId.value));
+      currentPath.value = path;
+    } catch (error) {
+      console.error('Failed to load path:', error);
+      // 如果加载失败，跳转回选择页面
+      router.push({ name: 'collaboration' });
+    }
+  } else {
+    // 如果没有 pathId，跳转回选择页面
+    router.push({ name: 'collaboration' });
+  }
+});
 </script>
 
 <style scoped>
@@ -179,6 +209,32 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 16px;
   position: relative;
+}
+
+.path-info {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.path-name-small {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 4px 0;
+}
+
+.path-title-small {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .sidebar-title {

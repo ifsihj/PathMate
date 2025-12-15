@@ -20,12 +20,12 @@
         <router-link to="/personal-center" class="nav-link">
           <span class="nav-link-text">个人中心</span>
         </router-link>
-        <a class="nav-link">
+        <router-link to="/guide" class="nav-link">
           <span class="nav-link-text">新手指导</span>
-        </a>
+        </router-link>
       </nav>
       <div class="nav-right">
-        <button class="search-btn">
+        <button class="search-btn" @click="handleSearchClick">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, inject, ref } from "vue";
 import { useRoute } from "vue-router";
 import logoImage from "@/assets/images/logo.jpg";
 
@@ -59,6 +59,16 @@ const isHome = computed(() => route.path === "/");
 
 // Logo图片路径
 const logoUrl = logoImage;
+
+// 获取全局搜索模态框控制
+const showSearchModal = inject('showSearchModal');
+
+// 打开搜索模态框
+const handleSearchClick = () => {
+  if (showSearchModal) {
+    showSearchModal.value = true;
+  }
+};
 </script>
 
 <style scoped>

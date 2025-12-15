@@ -12,25 +12,70 @@
 
     <!-- 底部卡片区域 -->
     <section class="paths">
-      <div class="path-card">
-        <h3>Path1</h3>
-        <p>&lt;PathMate 网站设计&gt;</p>
-      </div>
-      <div class="path-card">
-        <h3>Path2</h3>
-        <p>&lt;作业展示平台数据库&gt;</p>
-      </div>
-      <div class="path-card">
-        <h3>Path3</h3>
-        <p>&lt;AI 对信息公平的影响&gt;</p>
+      <div 
+        v-for="path in displayedPaths" 
+        :key="path.id" 
+        class="path-card"
+        @click="handlePathClick(path)"
+      >
+        <h3>{{ path.name }}</h3>
+        <p>&lt;{{ path.title }}&gt;</p>
       </div>
 
-      <button class="cta">完整信息</button>
+      <button class="cta" @click="showPathListModal = true">完整信息</button>
     </section>
+
+    <!-- Path 列表模态框 -->
+    <PathListModal
+      v-model:open="showPathListModal"
+      @view-path="handleViewPath"
+    />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import PathListModal from '@/components/PathListModal.vue';
+import { getDisplayedPaths } from '@/services/pathApi';
+
+const router = useRouter();
+const showPathListModal = ref(false);
+const pathList = ref([]);
+
+// 显示在主页底部的 3 个 path
+const displayedPaths = computed(() => {
+  return pathList.value.length > 0 ? pathList.value.slice(0, 3) : [];
+});
+
+// 加载 Path 数据
+onMounted(async () => {
+  try {
+    const paths = await getDisplayedPaths(3);
+    pathList.value = paths;
+  } catch (error) {
+    console.error('Failed to load paths:', error);
+  }
+});
+
+// 处理查看 Path 详情
+const handleViewPath = (path) => {
+  console.log('查看 Path:', path);
+  // 跳转到协作空间详情页面
+  router.push({
+    name: 'path-description',
+    params: { pathId: path.id }
+  });
+};
+
+// 处理点击 Path 卡片，跳转到协作空间
+const handlePathClick = (path) => {
+  router.push({
+    name: 'path-description',
+    params: { pathId: path.id }
+  });
+};
+</script>
 
 <style scoped>
 @font-face {
@@ -86,7 +131,7 @@
 .title-en {
   font-size: 115px;
   font-weight: 400;
-  color: #000000;
+  color: #f30606;
   font-family: "Signature", "Snell Roundhand", "Script MT Bold", "Kaiti SC",
     "KaiTi", cursive;
   margin-bottom: -50px;
@@ -138,15 +183,53 @@
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
   height: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.path-card:hover::before {
+  opacity: 1;
+}
+
+.path-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .path-card h3 {
   margin-bottom: 0px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.path-card:hover h3 {
+  color: #4A90E2;
 }
 
 .path-card p {
   font-size: 14px;
   color: #ffffff;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.path-card:hover p {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* 右侧按钮 */

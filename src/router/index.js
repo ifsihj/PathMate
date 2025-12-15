@@ -20,8 +20,13 @@ const router = createRouter({
     {
       path: "/collaboration",
       name: "collaboration",
+      component: () => import("../views/collaboration/PathSelection.vue"),
+    },
+    {
+      path: "/collaboration/:pathId",
+      name: "collaboration-space",
       component: () => import("../views/CollaborationView.vue"),
-      redirect: "/collaboration/path-description",
+      redirect: (to) => `/collaboration/${to.params.pathId}/path-description`,
       children: [
         {
           path: "path-description",
@@ -100,6 +105,11 @@ const router = createRouter({
       path: "/chat",
       name: "chat",
       component: () => import("../views/ChatView.vue"),
+    },
+    {
+      path: "/guide",
+      name: "guide",
+      component: () => import("../views/GuideView.vue"),
     },
   ],
 });

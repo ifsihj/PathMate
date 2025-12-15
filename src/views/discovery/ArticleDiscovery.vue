@@ -11,8 +11,40 @@
       </button>
     </div>
 
+    <!-- 搜索结果提示 -->
+    <div v-if="searchKeyword" class="search-result-header">
+      <div class="search-info">
+        <span class="search-keyword">搜索关键词: "{{ searchKeyword }}"</span>
+        <span class="result-count">找到 {{ filteredArticles.length }} 篇文章</span>
+      </div>
+      <a-button type="link" @click="clearSearch">清除搜索</a-button>
+    </div>
+
     <!-- 内容卡片列表 -->
-    <div class="content-feed">
+    <div v-if="filteredArticles.length > 0" class="content-feed">
+      <DiscoveryCard
+        v-for="item in filteredArticles"
+        :key="item.id"
+        :item="item"
+        @click="handleCardClick"
+      />
+    </div>
+    
+    <!-- 无搜索结果 -->
+    <div v-else-if="searchKeyword" class="no-results">
+      <div class="no-results-content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <p class="no-results-text">未找到相关文章</p>
+        <p class="no-results-hint">尝试使用其他关键词搜索</p>
+        <a-button type="primary" @click="clearSearch">清除搜索</a-button>
+      </div>
+    </div>
+    
+    <!-- 无搜索时显示所有文章 -->
+    <div v-else class="content-feed">
       <DiscoveryCard
         v-for="item in articleItems"
         :key="item.id"
@@ -68,12 +100,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
 import DiscoveryCard from '@/components/DiscoveryCard.vue';
 
 const router = useRouter();
+const route = useRoute();
 
 const showUploadModal = ref(false);
 const uploadForm = ref({
@@ -225,6 +258,32 @@ const resetForm = () => {
   };
 };
 
+// 搜索关键词
+const searchKeyword = ref('');
+
+// 从路由 query 获取搜索关键词
+const updateSearchKeyword = () => {
+  searchKeyword.value = route.query.search || '';
+};
+
+// 过滤后的文章列表
+const filteredArticles = computed(() => {
+  if (!searchKeyword.value) {
+    return articleItems.value;
+  }
+  
+  const keyword = searchKeyword.value.toLowerCase().trim();
+  return articleItems.value.filter(item => 
+    item.title.toLowerCase().includes(keyword)
+  );
+});
+
+// 清除搜索
+const clearSearch = () => {
+  router.push({ name: 'discovery-articles' });
+  searchKeyword.value = '';
+};
+
 const handleCardClick = (item) => {
   // 跳转到文章详情页
   router.push(`/discovery/articles/${item.id}`);
@@ -233,6 +292,11 @@ const handleCardClick = (item) => {
 const saveData = () => {
   localStorage.setItem('discovery-article-items', JSON.stringify(articleItems.value));
 };
+
+// 监听路由变化
+watch(() => route.query.search, () => {
+  updateSearchKeyword();
+}, { immediate: true });
 
 onMounted(() => {
   const saved = localStorage.getItem('discovery-article-items');
@@ -249,6 +313,8 @@ onMounted(() => {
   }
   // 保存初始数据
   saveData();
+  // 初始化搜索关键词
+  updateSearchKeyword();
 });
 </script>
 
@@ -311,5 +377,66 @@ onMounted(() => {
 .content-feed {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+/* 搜索结果头部 */
+.search-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.search-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-keyword {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4A90E2;
+}
+
+.result-count {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 无搜索结果 */
+.no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px 20px;
+}
+
+.no-results-content {
+  text-align: center;
+}
+
+.no-results-content svg {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.no-results-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.no-results-hint {
+  font-size: 14px;
+  color: #999;
+  margin: 0 0 24px 0;
 }
 </style>
