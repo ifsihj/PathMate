@@ -291,7 +291,6 @@ onMounted(() => {
   max-width: 800px;
   margin: 0 auto;
   padding: 24px;
-  min-height: 100vh;
   background-color: #f8f9fa;
 }
 
@@ -320,6 +319,9 @@ onMounted(() => {
 }
 
 .article-content {
+  width: 100%;
+  height: fit-content;
+  min-height: unset;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   border-radius: 16px;

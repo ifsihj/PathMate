@@ -64,6 +64,9 @@
 <script setup>
 import { ref } from 'vue';
 import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const settings = ref({
   username: '王西园',
@@ -80,6 +83,7 @@ const defaultSettings = { ...settings.value };
 const saveSettings = () => {
   // 这里应该调用API保存设置
   message.success('设置已保存');
+  router.push('/personal-center/resources');
 };
 
 const resetSettings = () => {
@@ -90,12 +94,12 @@ const resetSettings = () => {
 
 <style scoped>
 .settings {
-  max-width: 1200px;
+  width: min(100%, 1100px);
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 32px;
+  padding: clamp(20px, 3vw, 32px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 

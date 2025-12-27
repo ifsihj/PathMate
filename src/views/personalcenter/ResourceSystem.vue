@@ -59,20 +59,24 @@
 
     <!-- 内容标签 -->
     <div class="content-tabs">
-      <button 
-        class="tab-btn" 
-        :class="{ active: activeTab === 'created' }"
-        @click="activeTab = 'created'"
-      >
-        我的创建
-      </button>
-      <button 
-        class="tab-btn" 
-        :class="{ active: activeTab === 'collected' }"
-        @click="activeTab = 'collected'"
-      >
-        我的收藏
-      </button>
+      <div class="tabs-left">
+        <button 
+          class="tab-btn" 
+          :class="{ active: activeTab === 'created' }"
+          @click="activeTab = 'created'"
+        >
+          我的创建
+        </button>
+        <button 
+          class="tab-btn" 
+          :class="{ active: activeTab === 'collected' }"
+          @click="activeTab = 'collected'"
+        >
+          我的收藏
+        </button>
+      </div>
+
+      <button class="detail-list-btn" @click="openDetailList">详情列表</button>
     </div>
 
     <!-- 内容卡片列表 -->
@@ -83,6 +87,7 @@
           v-for="item in createdItems"
           :key="item.id"
           :item="item"
+          @click="goToDetail"
         />
       </template>
 
@@ -92,16 +97,29 @@
           v-for="item in collectedItems"
           :key="item.id"
           :item="item"
+          @click="goToDetail"
         />
       </template>
     </div>
+
+    <DetailListModal
+      v-model:open="detailListOpen"
+      :title="detailListTitle"
+      :items="detailListItems"
+      @select="goToDetail"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { message } from 'ant-design-vue';
 import NoteCard from '@/components/NoteCard.vue';
 import CollectionCard from '@/components/CollectionCard.vue';
+import DetailListModal from '@/components/DetailListModal.vue';
+
+const router = useRouter();
 
 const activeTab = ref('created');
 
@@ -130,18 +148,21 @@ const createdItems = ref([
     title: '台湾生存手册 1:消费篇',
     type: 'note',
     icon: '🏖️',
+    articleId: 4,
   },
   {
     id: 2,
     title: 'Vue3 项目开发经验分享',
     type: 'note',
     icon: '💻',
+    articleId: 1,
   },
   {
     id: 3,
     title: '前端路由设计最佳实践',
     type: 'note',
     icon: '📚',
+    articleId: 2,
   },
 ]);
 
@@ -156,20 +177,103 @@ const collectedItems = ref([
     title: '台湾生存手册 2:行李篇',
     type: 'note',
     icon: '🌴',
+    articleId: 5,
   },
   {
     id: 3,
     title: '团队协作开发经验',
     type: 'note',
     icon: '👥',
+    articleId: 3,
   },
 ]);
+
+const detailListOpen = ref(false);
+
+const detailListTitle = computed(() => {
+  return activeTab.value === 'created' ? '我的创建 - 详情列表' : '我的收藏 - 详情列表';
+});
+
+const detailListItems = computed(() => {
+  const items = activeTab.value === 'created' ? createdItems.value : collectedItems.value;
+  return items.map((item) => ({
+    ...item,
+    typeLabel: item.type === 'note' ? '文章' : item.type === 'quote' ? '收藏' : item.type,
+  }));
+});
+
+const openDetailList = () => {
+  detailListOpen.value = true;
+};
+
+const normalizeTitle = (title) => {
+  return String(title || '')
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[：:]/g, ':')
+    .replace(/[“”"'’]/g, '');
+};
+
+const resolveArticleId = (item) => {
+  if (item?.articleId) return item.articleId;
+
+  const saved = localStorage.getItem('discovery-article-items');
+  if (!saved) return null;
+
+  try {
+    const articles = JSON.parse(saved);
+    const target = normalizeTitle(item?.title);
+    const found = articles.find((a) => normalizeTitle(a.title) === target);
+    return found?.id ?? null;
+  } catch {
+    return null;
+  }
+};
+
+const goToDetail = (item) => {
+  const articleId = resolveArticleId(item);
+  if (!articleId) {
+    message.info('该条目暂不支持查看文章详情');
+    return;
+  }
+
+  detailListOpen.value = false;
+  router.push(`/discovery/articles/${articleId}`);
+};
 </script>
 
 <style scoped>
 .resource-system {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.content-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tabs-left {
+  display: flex;
+  gap: 12px;
+}
+
+.detail-list-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 600;
+}
+
+.detail-list-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(74, 144, 226, 0.25);
 }
 
 .profile-card {

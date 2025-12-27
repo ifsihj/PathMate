@@ -1,10 +1,10 @@
 <template>
   <div class="collection-card" :class="cardClass">
-    <div v-if="item.type === 'quote'" class="quote-card">
+    <div v-if="item.type === 'quote'" class="quote-card" @click="handleClick">
       <div class="quote-icon">"</div>
       <p class="quote-text">{{ item.title }}</p>
     </div>
-    <NoteCard v-else :item="item" />
+    <NoteCard v-else :item="item" @click="handleClick" />
   </div>
 </template>
 
@@ -19,9 +19,15 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['click']);
+
 const cardClass = computed(() => {
   return props.item.type === 'quote' ? 'quote-type' : 'note-type';
 });
+
+const handleClick = () => {
+  emit('click', props.item);
+};
 </script>
 
 <style scoped>
